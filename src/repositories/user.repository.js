@@ -1,4 +1,6 @@
 import prisma from "../config/prisma.js";
+import bcrypt from "bcrypt";
+import { RefreshToken } from "../controllers/auth.controller.js";
 
 const usersRepository = {
   findUsers: async () => {
@@ -16,15 +18,56 @@ const usersRepository = {
     });
     return user;
   },
+  findUserByRToken: async (token) => {
+    const user = await prisma.user.findFirst({
+      where: {
+        refreshToken: token,
+      },
+    });
+    return user;
+  },
   createUser: async (userData) => {
+    const saltRound = 10;
+    const hashedPassword = await bcrypt.hash(userData.password, saltRound);
+
     const user = await prisma.user.create({
       data: {
         username: userData.username,
         email: userData.email,
-        password: userData.password,
+        password: hashedPassword,
       },
     });
     return user;
+  },
+  updateRefreshToken: async (id, refreshToken) => {
+    const user = await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        refreshToken: refreshToken,
+      },
+    });
+    return user;
+  },
+  deleteRefreshToken: async (id) => {
+    const user = await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        refreshToken: null,
+      },
+    });
+    return user;
+  },
+  deleteUser: async (id) => {
+    const deleteUser = await prisma.user.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deleteUser;
   },
 };
 

@@ -1,11 +1,9 @@
 import todosRepository from "../repositories/todos.repository.js";
-import express from "express";
 
-const router = express.Router();
-
-router.get("/todos", async (req, res, next) => {
+export const getTodoByUserId = async (req, res, next) => {
   try {
-    const todos = await todosRepository.findTodos();
+    const id = req.id;
+    const todos = await todosRepository.findTodoByUserId(id);
     res.status(200).json(todos);
   } catch (err) {
     res.status(500).json({
@@ -13,22 +11,23 @@ router.get("/todos", async (req, res, next) => {
     });
     next(err);
   }
-});
+};
 
-router.post("/todos", async (req, res, next) => {
+export const createTodoById = async (req, res, next) => {
   try {
-    const todoData = req.body;
-    const todo = await todosRepository.createTodo(todoData);
+    const id = req.id;
+    const task = req.body;
+    const todo = await todosRepository.createTodo(task, id);
     res.status(200).json(todo);
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       message: "cannot create todo",
     });
     next(err);
   }
-});
+};
 
-router.delete("/todos/:id", async (req, res, next) => {
+export const deleteTodoById = async (req, res, next) => {
   try {
     const todoId = parseInt(req.params.id);
     const todo = await todosRepository.deleteTodo(todoId);
@@ -39,21 +38,36 @@ router.delete("/todos/:id", async (req, res, next) => {
     });
     next(err);
   }
-});
+};
 
-router.patch("/todos/:id", async (req, res, next) => {
+export const editTodoById = async (req, res, next) => {
   try {
-    const userId = parseInt(req.params.id);
-    const newTask = req.body;
-    const user = await todosRepository.editTodo(userId, newTask);
+    const id = parseInt(req.params.id);
+    const { task } = req.body;
 
-    res.status(201).json(user);
+    const todo = await todosRepository.editTodo(id, task);
+
+    res.status(201).json(todo);
   } catch (err) {
     res.status(403).json({
       message: "failed update todo",
     });
-    next();
+    next(err);
   }
-});
+};
 
-export default router;
+export const completeTodoById = async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { completed } = req.body;
+
+    const todo = await todosRepository.completeTodo(id, completed);
+
+    res.status(201).json(todo);
+  } catch (err) {
+    res.status(403).json({
+      message: "failed update todo",
+    });
+    next(err);
+  }
+};

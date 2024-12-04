@@ -5,15 +5,41 @@ const todosRepository = {
     const todos = await prisma.todo.findMany();
     return todos;
   },
-  createTodo: async (todoData) => {
+
+  findTodoByUserId: async (id) => {
+    const todos = await prisma.todo.findMany({
+      where: {
+        userId: id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return todos;
+  },
+
+  findTodoByUsername: async (username) => {
+    const todos = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+      include: {
+        todos: true,
+      },
+    });
+    return todos;
+  },
+
+  createTodo: async (todoData, id) => {
     const todo = await prisma.todo.create({
       data: {
         task: todoData.task,
-        userId: todoData.userId,
+        userId: id,
       },
     });
     return todo;
   },
+
   deleteTodo: async (todoId) => {
     const todo = await prisma.todo.delete({
       where: {
@@ -22,13 +48,26 @@ const todosRepository = {
     });
     return todo;
   },
+
+  completeTodo: async (todoId, completedTodo) => {
+    const todo = await prisma.todo.update({
+      where: {
+        id: todoId,
+      },
+      data: {
+        completed: completedTodo,
+      },
+    });
+    return todo;
+  },
+
   editTodo: async (todoId, newTask) => {
     const todo = await prisma.todo.update({
       where: {
         id: todoId,
       },
       data: {
-        task: newTask.task,
+        task: newTask,
       },
     });
     return todo;
