@@ -40,6 +40,20 @@ export const deleteTodoById = async (req, res, next) => {
   }
 };
 
+export const createTodoDescById = async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { taskDescription } = req.body;
+    const todo = await todosRepository.createDesc(taskDescription, id);
+    res.status(201).json(todo);
+  } catch (err) {
+    res.status(500).json({
+      message: "cannot update description",
+    });
+    next(err);
+  }
+};
+
 export const editTodoById = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);

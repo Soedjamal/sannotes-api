@@ -40,10 +40,10 @@ export const Login = async (req, res) => {
   const requestUser = req.body;
 
   const currentUser = await usersRepository.findUserByUsername(
-    requestUser.username,
+    requestUser.username
   );
 
-  if (!currentUser) {
+  if (currentUser.username !== requestUser.username) {
     return res
       .status(400)
       .json({ message: { username: "username belum terdaftar" } });
@@ -55,7 +55,7 @@ export const Login = async (req, res) => {
 
   const match = await bcrypt.compare(
     requestUser.password,
-    currentUser.password,
+    currentUser.password
   );
 
   if (!match) {

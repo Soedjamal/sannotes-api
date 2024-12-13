@@ -9,6 +9,7 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 import {
   completeTodoById,
   createTodoById,
+  createTodoDescById,
   deleteTodoById,
   editTodoById,
   getTodoByUserId,
@@ -19,6 +20,7 @@ const router = express.Router();
 
 router.get("/todos", verifyToken, getTodoByUserId);
 router.post("/todos/create", verifyToken, createTodoById);
+router.patch("/todos/create/:id", verifyToken, createTodoDescById);
 router.delete("/todos/delete/:id", verifyToken, deleteTodoById);
 router.patch("/todos/edit/:id", verifyToken, editTodoById);
 router.patch("/todos/complete/:id", verifyToken, completeTodoById);

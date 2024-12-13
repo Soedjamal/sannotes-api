@@ -9,24 +9,26 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id           Int     @id @default(autoincrement())
-  username     String  @unique
-  email        String
-  password     String
-  refreshToken String?
-  todos        Todo[]
+  id             Int     @id @default(autoincrement())
+  username       String  @unique
+  email          String
+  password       String
+  profilePicture String?
+  refreshToken   String?
+  todos          Todo[]
 }
 
 model Todo {
-  id        Int      @id @default(autoincrement())
-  task      String
-  completed Boolean  @default(false)
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  task            String
+  taskDescription String?
+  completed       Boolean  @default(false)
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
+  createdAt       DateTime @default(now())
 }

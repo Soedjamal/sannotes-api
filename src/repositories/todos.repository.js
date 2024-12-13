@@ -40,6 +40,18 @@ const todosRepository = {
     return todo;
   },
 
+  createDesc: async (descData, id) => {
+    const todos = await prisma.todo.update({
+      where: {
+        id: id,
+      },
+      data: {
+        taskDescription: descData,
+      },
+    });
+    return todos;
+  },
+
   deleteTodo: async (todoId) => {
     const todo = await prisma.todo.delete({
       where: {
