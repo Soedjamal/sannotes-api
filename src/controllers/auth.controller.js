@@ -23,7 +23,7 @@ export const Register = async (req, res) => {
 
   if (existingUser && (existingUser.username || existingUser.email)) {
     return res.status(400).json({
-      message: { all: "username or email alrady exists" },
+      message: { all: "username atau email telah digunakan" },
     });
   }
 
@@ -39,9 +39,8 @@ export const Register = async (req, res) => {
 export const Login = async (req, res) => {
   const requestUser = req.body;
 
-  const currentUser = await usersRepository.findUserByUsername(
-    requestUser.username
-  );
+  const currentUser =
+    (await usersRepository.findUserByUsername(requestUser.username)) || [];
 
   if (currentUser.username !== requestUser.username) {
     return res
@@ -59,7 +58,9 @@ export const Login = async (req, res) => {
   );
 
   if (!match) {
-    return res.status(401).json({ message: { password: "wrong password" } });
+    return res
+      .status(401)
+      .json({ message: { password: "username atau password salah" } });
   }
 
   const jwtPayload = {

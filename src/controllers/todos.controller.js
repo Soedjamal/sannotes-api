@@ -1,4 +1,22 @@
+import prisma from "../config/prisma.js";
 import todosRepository from "../repositories/todos.repository.js";
+
+export const getAllTodos = async (req, res, next) => {
+  try {
+    const todos = await prisma.todo.findMany();
+
+    res.status(200).json({
+      message: "Succes find all todos",
+      data: {
+        todos,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Failed find all todos",
+    });
+  }
+};
 
 export const getTodoByUserId = async (req, res, next) => {
   try {
@@ -45,7 +63,10 @@ export const createTodoDescById = async (req, res, next) => {
     const id = parseInt(req.params.id);
     const { taskDescription } = req.body;
     const todo = await todosRepository.createDesc(taskDescription, id);
-    res.status(201).json(todo);
+    res.status(201).json({
+      message: "Berhasil menambah deskripsi tugas",
+      data: todo,
+    });
   } catch (err) {
     res.status(500).json({
       message: "cannot update description",

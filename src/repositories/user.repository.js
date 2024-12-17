@@ -39,6 +39,17 @@ const usersRepository = {
     });
     return user;
   },
+  updateUsername: async (id, username) => {
+    const user = await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        username: username,
+      },
+    });
+    return user;
+  },
   updateRefreshToken: async (id, refreshToken) => {
     const user = await prisma.user.update({
       where: {

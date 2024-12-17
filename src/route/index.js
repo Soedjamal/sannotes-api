@@ -12,12 +12,14 @@ import {
   createTodoDescById,
   deleteTodoById,
   editTodoById,
+  getAllTodos,
   getTodoByUserId,
 } from "../controllers/todos.controller.js";
 import { findUserByRefreshToken } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
+// router.get("/todos", getAllTodos);
 router.get("/todos", verifyToken, getTodoByUserId);
 router.post("/todos/create", verifyToken, createTodoById);
 router.patch("/todos/create/:id", verifyToken, createTodoDescById);
