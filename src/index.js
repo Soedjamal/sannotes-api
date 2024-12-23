@@ -24,7 +24,7 @@ app.use(limitter);
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "https://sannotes-todolist.vercel.app",
+    origin: "https://sannotes-todolist.vercel.app" || process.env.CLIENT_URL,
     credentials: true,
   })
 );
