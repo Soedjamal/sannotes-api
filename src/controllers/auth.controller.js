@@ -19,7 +19,7 @@ export const Register = async (req, res) => {
   }
 
   const existingUser =
-    (await usersRepository.findUserByUsername(requestUser.username)) || [];
+    (await usersRepository.findUserByUsername(requestUser?.username)) || [];
 
   if (existingUser && (existingUser.username || existingUser.email)) {
     return res.status(400).json({
