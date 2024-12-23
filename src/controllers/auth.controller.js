@@ -54,7 +54,7 @@ export const Login = async (req, res) => {
 
   const match = await bcrypt.compare(
     requestUser.password,
-    currentUser.password
+    currentUser.password,
   );
 
   if (!match) {

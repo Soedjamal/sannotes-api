@@ -7,6 +7,7 @@ const usersRepository = {
     const users = await prisma.user.findMany();
     return users;
   },
+
   findUserByUsername: async (username) => {
     const user = await prisma.user.findUnique({
       where: {
@@ -18,6 +19,16 @@ const usersRepository = {
     });
     return user;
   },
+
+  findUserByEmail: async (email) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    return user;
+  },
+
   findUserByRToken: async (token) => {
     const user = await prisma.user.findFirst({
       where: {
@@ -26,6 +37,7 @@ const usersRepository = {
     });
     return user;
   },
+
   createUser: async (userData) => {
     const saltRound = 10;
     const hashedPassword = await bcrypt.hash(userData.password, saltRound);
@@ -39,6 +51,7 @@ const usersRepository = {
     });
     return user;
   },
+
   updateUsername: async (id, username) => {
     const user = await prisma.user.update({
       where: {
@@ -50,6 +63,19 @@ const usersRepository = {
     });
     return user;
   },
+
+  updatePasswordByEmail: async (email, newPassword) => {
+    const user = await prisma.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        password: newPassword,
+      },
+    });
+    return user;
+  },
+
   updateRefreshToken: async (id, refreshToken) => {
     const user = await prisma.user.update({
       where: {

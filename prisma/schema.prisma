@@ -9,19 +9,27 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id             Int     @id @default(autoincrement())
-  username       String  @unique
-  email         String
+  id             Int      @id @default(autoincrement())
+  username       String   @unique
+  email          String   @unique
   password       String
   profilePicture String?
   refreshToken   String?
   createdAt      DateTime @default(now())
   todos          Todo[]
+}
+
+model Otp {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  otp       String?
+  expiresAt DateTime
 }
 
 model Todo {

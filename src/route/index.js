@@ -16,6 +16,12 @@ import {
   getTodoByUserId,
 } from "../controllers/todos.controller.js";
 import { findUserByRefreshToken } from "../controllers/user.controller.js";
+import {
+  createOtp,
+  resetPassword,
+  verifyOtp,
+} from "../controllers/passwordReset.controller.js";
+import { verifyOtpToken } from "../middlewares/verifyOtpToken.js";
 
 const router = express.Router();
 
@@ -33,5 +39,9 @@ router.post("/register", Register);
 router.post("/login", Login);
 router.post("/logout", Logout);
 router.get("/token", RefreshToken);
+
+router.post("/forgot-password", createOtp);
+router.post("/verify-otp", verifyOtp);
+router.patch("/reset-password", verifyOtpToken, resetPassword);
 
 export default router;
