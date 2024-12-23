@@ -16,10 +16,6 @@ const limitter = rateLimit({
   message: "to many request",
 });
 
-app.use(helmet());
-app.use(limitter);
-app.use(cookieParser());
-app.use(express.json());
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:5173",
@@ -28,6 +24,10 @@ app.use(
   }),
 );
 app.use(router);
+app.use(helmet());
+app.use(limitter);
+app.use(cookieParser());
+app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
