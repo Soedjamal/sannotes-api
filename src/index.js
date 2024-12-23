@@ -13,24 +13,22 @@ dotenv.config();
 const limitter = rateLimit({
   windowMs: 16 * 60 * 1000,
   max: 150,
-  message: "Too many requests",
+  message: "to many request",
 });
 
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "https://sannotes-todolist.vercel.app/",
+    credentials: true,
+  })
+);
+app.use(router);
 app.use(helmet());
 app.use(limitter);
 app.use(cookieParser());
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "https://sannotes-todolist.vercel.app",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
-app.use("/api", router);
+const port = process.env.PORT || 3000;
 
 app.use("/", usersController);
 
@@ -41,15 +39,14 @@ app.get("/api", (req, res) => {
 });
 
 app.use((err, req, res, next) => {
+  console.error(err.stack);
   res.status(500).json({
     message: "Something went wrong!",
   });
 });
 
-const port = process.env.PORT || 3000;
-
 app.listen(port, () => {
-  console.log(`App running on port ${port}`);
+  console.log(`app running on port ${port}`);
 });
 
 export default app;
