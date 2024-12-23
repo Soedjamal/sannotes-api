@@ -18,7 +18,7 @@ const limitter = rateLimit({
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "https://sannotes-todolist.vercel.app/",
+    origin: process.env.CLIENT_URL || "https://sannotes-todolist.vercel.app",
     credentials: true,
   })
 );
