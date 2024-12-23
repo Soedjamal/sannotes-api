@@ -21,8 +21,11 @@ app.use(
     origin: process.env.CLIENT_URL || "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
-  }),
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    exposedHeaders: ["Set-Cookie"],
+  })
 );
+app.options("*", cors());
 app.use(router);
 app.use(helmet());
 app.use(limitter);
