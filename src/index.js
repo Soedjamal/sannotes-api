@@ -36,7 +36,6 @@ app.use("/", usersController);
 app.get("/api", (req, res) => {
   res.status(200).json({
     message: "Welcome to API",
-    check: console.log(process.env.CLIENT_URL)
   });
 });
 
