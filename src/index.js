@@ -17,7 +17,7 @@ const limitter = rateLimit({
 });
 
 app.use(helmet());
-app.use(limitter());
+app.use(limitter);
 app.use(cookieParser());
 app.use(express.json());
 
