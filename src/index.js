@@ -28,7 +28,7 @@ app.use(
 );
 app.use(router);
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 app.use("/", usersController);
 
