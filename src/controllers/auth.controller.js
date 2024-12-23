@@ -79,8 +79,6 @@ export const Login = async (req, res) => {
   await usersRepository.updateRefreshToken(currentUser.id, refreshToken);
 
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    sameSite: "none",
     maxAge: 24 * 60 * 60 * 1000, 
   });
 
