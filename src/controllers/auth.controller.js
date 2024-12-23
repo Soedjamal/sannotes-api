@@ -40,7 +40,7 @@ export const Login = async (req, res) => {
   const requestUser = req.body;
 
   const currentUser =
-    (await usersRepository.findUserByUsername(requestUser?.username)) || [];
+    (await usersRepository.findUserByUsername(requestUser.username)) || "";
 
   if (currentUser.username !== requestUser.username) {
     return res
