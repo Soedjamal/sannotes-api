@@ -8,8 +8,16 @@
   ],
   "routes": [
     {
-      "src": "/(.*)", 
-      "dest": "src/index.js" 
+      "src": "/(.*)",
+      "dest": "src/index.js"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "DATABASE_URL": "postgresql://postgres.fiqwfqrqgdrekglmtmlu:kSOvkTlWWyHr0fHH@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+    }
+  }
 }
+
+
+
