@@ -18,15 +18,18 @@ export const Register = async (req, res) => {
     });
   }
 
-  const existingUser =
-    (await usersRepository.findUserByUsername(requestUser?.username)) || [];
+  const existingUsername = await usersRepository.findUserByUsername(requestUser.username);
+  const existingEmail = await usersRepository.findUserByEmail(requestUser.email);
 
-  if (existingUser && (existingUser.username || existingUser.email)) {
+  if (
+    existingUsername?.username === requestUser.username ||
+    existingEmail?.email === requestUser.email
+  ) {
     return res.status(400).json({
       message: { all: "username atau email telah digunakan" },
     });
   }
-
+  
   try {
     await usersRepository.createUser(requestUser);
     res.status(200).json({ message: { success: "register success" } });
