@@ -18,15 +18,10 @@ export const Register = async (req, res) => {
     });
   }
 
-<<<<<<< HEAD
-  const existingUser =
-    (await usersRepository.findUserByUsername(requestUser?.username)) || [];
-=======
   const existingUsername =
     (await usersRepository.findUserByUsername(requestUser.username)) || [];
   const existingEmail =
     (await usersRepository.findUserByEmail(requestUser.email)) || [];
->>>>>>> bdd1c5d (fix: auth message email)
 
   if (
     requestUser.username === existingUsername.username ||
@@ -89,14 +84,11 @@ export const Login = async (req, res) => {
   await usersRepository.updateRefreshToken(currentUser.id, refreshToken);
 
   res.cookie("refreshToken", refreshToken, {
-<<<<<<< HEAD
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "None",
-    maxAge: 24 * 60 * 60 * 1000, 
-=======
     maxAge: 24 * 60 * 60 * 1000,
->>>>>>> bdd1c5d (fix: auth message email)
+    maxAge: 24 * 60 * 60 * 1000,
   });
 
   res.status(200).json({
