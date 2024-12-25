@@ -14,35 +14,25 @@ const app = express();
 const limitter = rateLimit({
   windowMs: 16 * 60 * 1000,
   max: 150,
-<<<<<<< HEAD
   message: "Too many requests",
-=======
   message: "too many requests",
->>>>>>> bdd1c5d (fix: auth message email)
 });
 
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(helmet());
-app.use(limitter); 
+app.use(limitter);
 
 app.use(
   cors({
-<<<<<<< HEAD
     origin: "https://sannotes.vercel.app" || process.env.CLIENT_URL,
-=======
     origin: process.env.CLIENT_URL || "http://localhost:5173",
->>>>>>> bdd1c5d (fix: auth message email)
     credentials: true,
-  })
+  }),
 );
 
 app.use(router);
-<<<<<<< HEAD
-=======
-
->>>>>>> bdd1c5d (fix: auth message email)
 app.use("/", usersController);
 
 app.get("/api", (req, res) => {
