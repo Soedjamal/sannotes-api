@@ -97,6 +97,8 @@ export const verifyOtp = async (req, res) => {
   res.cookie("otpSessionToken", otpSession, {
     httpOnly: true,
     maxAge: 31 * 60 * 1000,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "None",
   });
 
   res.status(200).json({
