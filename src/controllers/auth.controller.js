@@ -18,10 +18,20 @@ export const Register = async (req, res) => {
     });
   }
 
+<<<<<<< HEAD
   const existingUser =
     (await usersRepository.findUserByUsername(requestUser?.username)) || [];
+=======
+  const existingUsername =
+    (await usersRepository.findUserByUsername(requestUser.username)) || [];
+  const existingEmail =
+    (await usersRepository.findUserByEmail(requestUser.email)) || [];
+>>>>>>> bdd1c5d (fix: auth message email)
 
-  if (existingUser && (existingUser.username || existingUser.email)) {
+  if (
+    requestUser.username === existingUsername.username ||
+    requestUser.email === existingEmail.email
+  ) {
     return res.status(400).json({
       message: { all: "username atau email telah digunakan" },
     });
@@ -79,10 +89,14 @@ export const Login = async (req, res) => {
   await usersRepository.updateRefreshToken(currentUser.id, refreshToken);
 
   res.cookie("refreshToken", refreshToken, {
+<<<<<<< HEAD
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000, 
+=======
+    maxAge: 24 * 60 * 60 * 1000,
+>>>>>>> bdd1c5d (fix: auth message email)
   });
 
   res.status(200).json({
