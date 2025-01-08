@@ -44,6 +44,12 @@ export const Register = async (req, res) => {
 export const Login = async (req, res) => {
   const requestUser = req.body;
 
+  if (!requestUser.username) {
+    return res.status(400).json({
+      message: { username: "username wajib diisi" },
+    });
+  }
+
   const currentUser =
     (await usersRepository.findUserByUsername(requestUser.username)) || "";
 
@@ -78,7 +84,7 @@ export const Login = async (req, res) => {
   });
 
   const refreshToken = jwt.sign(jwtPayload, process.env.REFRESH_TOKEN, {
-    expiresIn: "2d",
+    expiresIn: "14d",
   });
 
   await usersRepository.updateRefreshToken(currentUser.id, refreshToken);
@@ -87,7 +93,6 @@ export const Login = async (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "None",
-    maxAge: 24 * 60 * 60 * 1000,
     maxAge: 24 * 60 * 60 * 1000,
   });
 
